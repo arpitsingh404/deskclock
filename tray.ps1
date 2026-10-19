@@ -186,6 +186,20 @@ $miHide.Add_Click({ $script:userHidden = $true; [TRW]::HideAll() })
 $miReset = $menu.Items.Add('Restart + reset layout')
 $miReset.Add_Click({ Invoke-Launcher 'reset' })
 
+[void]$menu.Items.Add((New-Object System.Windows.Forms.ToolStripSeparator))
+
+$miTune = $menu.Items.Add('PC Health & Cleanup')
+$miTune.Add_Click({
+    $wt = Join-Path $root 'wintune.ps1'
+    if (Test-Path $wt) {
+        Start-Process -FilePath 'powershell.exe' -ArgumentList @(
+            '-NoProfile', '-STA', '-ExecutionPolicy', 'Bypass', '-File', $wt
+        ) -WindowStyle Hidden
+    }
+})
+
+[void]$menu.Items.Add((New-Object System.Windows.Forms.ToolStripSeparator))
+
 $miWatch = $menu.Items.Add('Auto-repair widgets')
 $miWatch.CheckOnClick = $true
 $miWatch.Checked = $true

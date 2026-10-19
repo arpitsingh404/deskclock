@@ -45,6 +45,19 @@ If a source is unavailable, the widget says so (`AQI n/a`, `offline`) instead of
 - **Autostart with Windows** — optional Startup shortcut starts everything at login.
 - **Glass UI** — vertical gradient, 20 px radius, 16 px padding, 1 px hairline border, soft drop shadow.
 
+### WinTune — PC health & cleanup (built in)
+
+Open it from the tray menu → **PC Health & Cleanup**.
+
+| Tab | What it does |
+|---|---|
+| **Dashboard** | CPU / RAM / C: usage, uptime, top 12 processes by RAM |
+| **Cleanup** | Scans User/Windows Temp, Windows Update cache, Chrome/Brave/Edge caches, npm cache and the Recycle Bin; shows reclaimable size; cleans the selected targets |
+| **Startup** | Lists `HKCU\...\Run` entries and Startup-folder items; disables HKCU entries with an automatic JSON backup |
+| **Battery** | Charge %, charging wattage, time to full, battery health, design vs full capacity, cycle count |
+
+Everything is read from real sources — no placeholder numbers.
+
 ---
 
 ## 📦 Requirements
@@ -150,6 +163,7 @@ deskclock.ps1          launcher: start / stop / status / reset / heal / tray / a
 deskclock_host.ps1     single PowerShell process, one STA runspace per widget
 widget.ps1             clock, stats, map, battery
 extras.ps1             weather, network
+wintune.ps1            PC health & cleanup panel (opened from the tray)
 tray.ps1               system-tray icon + auto-repair watchdog
 themes.ps1             theme helper
 theme.json             colour palette
