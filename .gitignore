@@ -1,0 +1,11 @@
+# local backup copies (not part of the project)
+backup_fixed/
+
+# runtime logs / debug dumps
+_*.txt
+*.log
+
+# temp
+*.tmp
+Thumbs.db
+desktop.ini
