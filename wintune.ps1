@@ -86,7 +86,7 @@ $xaml = @'
     </Style>
   </Window.Resources>
 
-  <Border Background="#F212121B" CornerRadius="16" BorderThickness="1" BorderBrush="#26FFFFFF">
+  <Border Background="#FF0E0E15" CornerRadius="16" BorderThickness="1" BorderBrush="#26FFFFFF">
     <Border.Effect><DropShadowEffect BlurRadius="34" ShadowDepth="0" Opacity="0.6" Color="#000000"/></Border.Effect>
     <Grid>
       <Grid.RowDefinitions>
