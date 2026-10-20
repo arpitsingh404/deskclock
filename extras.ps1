@@ -197,7 +197,7 @@ function Get-WeatherXaml {
         <!-- temp + condition -->
         <StackPanel Grid.Column="1" VerticalAlignment="Center">
           <StackPanel Orientation="Horizontal">
-            <TextBlock x:Name="tempTxt" Text="" Foreground="#FFFFFF" FontSize="33" FontFamily="Segoe UI Light" Margin="0,-3,0,0"/>
+            <TextBlock x:Name="tempTxt" Text="" Foreground="#FFFFFF" FontSize="36" FontFamily="Segoe UI Light" Margin="0,-3,0,0"/>
             <TextBlock Text="&#176;" Foreground="#B8B8C8" FontSize="19" FontFamily="Segoe UI Light" VerticalAlignment="Top" Margin="1,1,0,0"/>
           </StackPanel>
           <TextBlock x:Name="condTxt" Text="" Foreground="#EDEDF4" FontSize="10.5" FontFamily="Segoe UI" FontWeight="SemiBold" Margin="0,2,0,0"/>
@@ -237,13 +237,13 @@ function Get-NetXaml {
   <Border Background="Transparent" Padding="0">
     <StackPanel VerticalAlignment="Center">
       <Grid Margin="1,0,1,10">
-        <TextBlock Text="NETWORK" Foreground="#E8E8F2" FontSize="10.5" FontFamily="Segoe UI" FontWeight="Bold" VerticalAlignment="Center"/>
+        <TextBlock Text="NETWORK" Foreground="#5C5C68" FontSize="10.5" FontFamily="Segoe UI" FontWeight="Bold" VerticalAlignment="Center"/>
         <TextBlock x:Name="adapterTxt" Text="" HorizontalAlignment="Right" Foreground="#B8B8C8" FontSize="9" FontFamily="Segoe UI" VerticalAlignment="Center"/>
       </Grid>
 
       <Grid Margin="0,0,0,5">
         <TextBlock Text="Download" Foreground="#C9C9D6" FontSize="10" FontFamily="Segoe UI" FontWeight="SemiBold" VerticalAlignment="Center"/>
-        <TextBlock x:Name="downTxt" Text="0.00 Mbps" HorizontalAlignment="Right" Foreground="#7EE787" FontSize="17" FontFamily="Segoe UI" FontWeight="Bold" VerticalAlignment="Center"/>
+        <TextBlock x:Name="downTxt" Text="0.00 Mbps" HorizontalAlignment="Right" Foreground="#7EE787" FontSize="19" FontFamily="Segoe UI" FontWeight="Bold" VerticalAlignment="Center"/>
       </Grid>
       <Border Height="6" CornerRadius="3" Background="#0EFFFFFF" Margin="0,0,0,14">
         <Border x:Name="downBar" HorizontalAlignment="Left" Width="0" CornerRadius="3">
@@ -253,7 +253,7 @@ function Get-NetXaml {
 
       <Grid Margin="0,0,0,5">
         <TextBlock Text="Upload" Foreground="#C9C9D6" FontSize="10" FontFamily="Segoe UI" FontWeight="SemiBold" VerticalAlignment="Center"/>
-        <TextBlock x:Name="upTxt" Text="0.00 Mbps" HorizontalAlignment="Right" Foreground="#8B5CF6" FontSize="17" FontFamily="Segoe UI" FontWeight="Bold" VerticalAlignment="Center"/>
+        <TextBlock x:Name="upTxt" Text="0.00 Mbps" HorizontalAlignment="Right" Foreground="#8B5CF6" FontSize="19" FontFamily="Segoe UI" FontWeight="Bold" VerticalAlignment="Center"/>
       </Grid>
       <Border Height="6" CornerRadius="3" Background="#0EFFFFFF" Margin="0,0,0,13">
         <Border x:Name="upBar" HorizontalAlignment="Left" Width="0" CornerRadius="3">
@@ -262,12 +262,12 @@ function Get-NetXaml {
       </Border>
 
       <Grid>
-        <TextBlock Text="SESSION" Foreground="#9A9AB0" FontSize="8.5" FontFamily="Segoe UI" FontWeight="Bold" VerticalAlignment="Center"/>
+        <TextBlock Text="SESSION" Foreground="#5C5C68" FontSize="9" FontFamily="Segoe UI" FontWeight="Bold" VerticalAlignment="Center"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
           <TextBlock Text="&#8595;" Foreground="#22C55E" FontSize="10" FontFamily="Segoe UI" Margin="0,0,4,0"/>
-          <TextBlock x:Name="dlTotalTxt" Text="0 MB" Foreground="#D0D0DE" FontSize="9.5" FontFamily="Segoe UI" Margin="0,0,12,0"/>
+          <TextBlock x:Name="dlTotalTxt" Text="0 MB" Foreground="#2E2E38" FontSize="10" FontFamily="Segoe UI" Margin="0,0,12,0"/>
           <TextBlock Text="&#8593;" Foreground="#8B5CF6" FontSize="10" FontFamily="Segoe UI" Margin="0,0,4,0"/>
-          <TextBlock x:Name="ulTotalTxt" Text="0 MB" Foreground="#D0D0DE" FontSize="9.5" FontFamily="Segoe UI"/>
+          <TextBlock x:Name="ulTotalTxt" Text="0 MB" Foreground="#2E2E38" FontSize="10" FontFamily="Segoe UI"/>
         </StackPanel>
       </Grid>
     </StackPanel>
@@ -354,39 +354,69 @@ $xamlText = $xamlText.Replace('#22C55E', $T.ok).Replace('#7EE787', $T.okSoft)
 $xamlText = $xamlText.Replace('#FBBF24', $T.warnSoft).Replace('#F59E0B', $T.warn)
 $xamlText = $xamlText.Replace('#F2F2F8', $T.text).Replace('#EDEDF4', $T.text).Replace('#E8E8F2', $T.text)
 $xamlText = $xamlText.Replace('#D8D8E4', $T.muted).Replace('#C9C9D6', $T.muted).Replace('#D0D0DE', $T.muted).Replace('#B8B8C8', $T.muted)
+$xamlText = $xamlText.Replace('#FFFFFF', $T.text)
+$xamlText = $xamlText.Replace('#C0C0D0', $T.muted).Replace('#9A9AB0', $T.dim)
+$xamlText = $xamlText.Replace('#C4B5FD', $T.accent).Replace('#6EE7B7', $T.okSoft)
+# light-on-dark tracks -> dark-on-light tracks
+$xamlText = $xamlText.Replace('#22FFFFFF', '#18000000').Replace('#26FFFFFF', '#1E000000').Replace('#18FFFFFF', '#14000000')
+$xamlText = $xamlText.Replace('#16FFFFFF', '#14000000').Replace('#14FFFFFF', '#12000000').Replace('#12FFFFFF', '#10000000')
+$xamlText = $xamlText.Replace('#10FFFFFF', '#0C000000').Replace('#0EFFFFFF', '#0C000000').Replace('#0CFFFFFF', '#0A000000')
 $xamlText = $xamlText.Replace('#8A8A9A', $T.dim).Replace('#6E6E80', $T.dim).Replace('#5E5E70', $T.dim)
 
 [xml]$xaml = $xamlText
 $reader = New-Object System.Xml.XmlNodeReader $xaml
 $window = [Windows.Markup.XamlReader]::Load($reader)
 
-# ---------------------------------------------------------------- glass panel
-$glass = New-Object System.Windows.Controls.Border
-$glass.CornerRadius = New-Object System.Windows.CornerRadius 20
-$glass.Padding = New-Object System.Windows.Thickness 16
-$glass.BorderThickness = New-Object System.Windows.Thickness 1
-$glass.BorderBrush = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.Color]::FromArgb(0x26, 255, 255, 255))
+# ---------------------------------------------------------------- v2 glass panel
+$frame = New-Object System.Windows.Controls.Border
+$frame.CornerRadius = New-Object System.Windows.CornerRadius 22
+$frame.BorderThickness = New-Object System.Windows.Thickness 1
+$frame.Padding = New-Object System.Windows.Thickness 0
+# translucent white glass (all widgets) - higher opacity for crisp text
+$frame.BorderBrush = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.Color]::FromArgb(0x14, 0, 0, 0))
+$glassBg = New-Object System.Windows.Media.LinearGradientBrush
+$glassBg.StartPoint = New-Object System.Windows.Point(0, 0)
+$glassBg.EndPoint = New-Object System.Windows.Point(0, 1)
+[void]$glassBg.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.Color]::FromArgb(0xF0, 252, 252, 254), 0)))
+[void]$glassBg.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.Color]::FromArgb(0xFA, 245, 245, 250), 1)))
+$frame.Background = $glassBg
 
-# vertical glass gradient: lighter at the top, deep at the bottom
-$gbg = New-Object System.Windows.Media.LinearGradientBrush
-$gbg.StartPoint = New-Object System.Windows.Point(0, 0)
-$gbg.EndPoint = New-Object System.Windows.Point(0, 1)
-[void]$gbg.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.Color]::FromArgb(0xA6, 18, 18, 27), 0)))
-[void]$gbg.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.Color]::FromArgb(0xE6, 9, 9, 14), 1)))
-$glass.Background = $gbg
-
+# soft depth
 $sh = New-Object System.Windows.Media.Effects.DropShadowEffect
-$sh.BlurRadius = 30
-$sh.ShadowDepth = 0
-$sh.Opacity = 0.5
+$sh.BlurRadius = 42
+$sh.ShadowDepth = 8
+$sh.Direction = 270
+$sh.Opacity = 0.55
 $sh.Color = [System.Windows.Media.Colors]::Black
-$glass.Effect = $sh
+$frame.Effect = $sh
 
 $inner = $window.Content
 if ($inner -is [System.Windows.UIElement]) { $inner.Effect = $null }
 $window.Content = $null
-$glass.Child = $inner
-$window.Content = $glass
+
+$panel = New-Object System.Windows.Controls.Border
+$panel.Padding = New-Object System.Windows.Thickness 18
+$panel.CornerRadius = New-Object System.Windows.CornerRadius 21
+$panel.Child = $inner
+
+# top sheen (glass reflection)
+$sheen = New-Object System.Windows.Controls.Border
+$sheen.CornerRadius = New-Object System.Windows.CornerRadius 21
+$sheen.IsHitTestVisible = $false
+$sg = New-Object System.Windows.Media.LinearGradientBrush
+$sg.StartPoint = New-Object System.Windows.Point(0, 0)
+$sg.EndPoint = New-Object System.Windows.Point(0, 1)
+[void]$sg.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.Color]::FromArgb(0x12, 255, 255, 255), 0)))
+[void]$sg.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.Color]::FromArgb(0x04, 255, 255, 255), 0.38)))
+[void]$sg.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.Color]::FromArgb(0x00, 255, 255, 255), 0.55)))
+$sheen.Background = $sg
+
+$shell = New-Object System.Windows.Controls.Grid
+[void]$shell.Children.Add($panel)
+[void]$shell.Children.Add($sheen)
+$frame.Child = $shell
+
+$window.Content = $frame
 if ($inner -is [System.Windows.FrameworkElement]) {
     $inner.VerticalAlignment = 'Center'
     $inner.HorizontalAlignment = 'Stretch'
@@ -398,8 +428,8 @@ $sz = switch ($Type) {
     'clock'   { @{ w = 300; h = 316 } }
     'stats'   { @{ w = 300; h = 190 } }
     'map'     { @{ w = 300; h = 176 } }
-    'weather' { @{ w = 300; h = 190 } }
-    'net'     { @{ w = 300; h = 164 } }
+    'weather' { @{ w = 282; h = 230 } }
+    'net'     { @{ w = 400; h = 178 } }
     default   { @{ w = 300; h = 180 } }
 }
 $window.Width = $sz.w
@@ -441,21 +471,21 @@ if ($Type -eq 'weather') {
         $d = New-Object System.Windows.Controls.TextBlock
         $d.Text = '--'; $d.FontSize = 8.5
         $d.FontFamily = New-Object System.Windows.Media.FontFamily('Segoe UI')
-        $d.Foreground = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.ColorConverter]::ConvertFromString('#9A9AB0'))
+        $d.Foreground = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.ColorConverter]::ConvertFromString('#5C5C68'))
         $d.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Center
 
         $hi = New-Object System.Windows.Controls.TextBlock
         $hi.Text = '--'; $hi.FontSize = 10
         $hi.FontWeight = [System.Windows.FontWeights]::SemiBold
         $hi.FontFamily = New-Object System.Windows.Media.FontFamily('Segoe UI')
-        $hi.Foreground = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.ColorConverter]::ConvertFromString('#EDEDF4'))
+        $hi.Foreground = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.ColorConverter]::ConvertFromString('#0B0B10'))
         $hi.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Center
         $hi.Margin = New-Object System.Windows.Thickness(0,2,0,0)
 
         $lo = New-Object System.Windows.Controls.TextBlock
         $lo.Text = '--'; $lo.FontSize = 9
         $lo.FontFamily = New-Object System.Windows.Media.FontFamily('Segoe UI')
-        $lo.Foreground = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.ColorConverter]::ConvertFromString('#8A8A9A'))
+        $lo.Foreground = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.ColorConverter]::ConvertFromString('#5C5C68'))
         $lo.HorizontalAlignment = [System.Windows.HorizontalAlignment]::Center
 
         [void]$sp.Children.Add($d)
@@ -521,7 +551,7 @@ if ($Type -eq 'net') {
 
     $script:prevRx = $null; $script:prevTx = $null; $script:prevTime = $null
     $script:totalRx = 0.0; $script:totalTx = 0.0
-    $BARW = 268.0
+    $BARW = 364.0
 
     $update = {
         try {
@@ -616,8 +646,8 @@ $wa = [System.Windows.SystemParameters]::WorkArea
 function Default-Pos {
     $w = $script:window.Width
     switch ($script:Type) {
-        'weather' { $script:window.Left = $wa.Right - 18 - 300; $script:window.Top = 18 }
-        'net' { $script:window.Left = $wa.Right - 18 - 300; $script:window.Top = 222 }
+        'weather' { $script:window.Left = $wa.Right - 18 - 282 - 14 - 282; $script:window.Top = 18 }
+        'net' { $script:window.Left = $wa.Right - 18 - 282 - 14 - 282 - 14 - 400; $script:window.Top = 432 }
         'vps' { $script:window.Left = 18; $script:window.Top = 14 + 176 + 8 + 140 + 8 }
     }
 }
@@ -644,8 +674,8 @@ $miReset.Header = 'Reset position'
 $miReset.Add_Click({
     $wa2 = [System.Windows.SystemParameters]::WorkArea
     switch ($script:Type) {
-        'weather' { $script:window.Left = $wa2.Right - 18 - 300; $script:window.Top = 18 }
-        'net' { $script:window.Left = $wa2.Right - 18 - 300; $script:window.Top = 222 }
+        'weather' { $script:window.Left = $wa2.Right - 18 - 282 - 14 - 282; $script:window.Top = 18 }
+        'net' { $script:window.Left = $wa2.Right - 18 - 282 - 14 - 282 - 14 - 400; $script:window.Top = 432 }
         'vps' { $script:window.Left = $wa2.Right - 375 - 18; $script:window.Top = 14 }
     }
 })

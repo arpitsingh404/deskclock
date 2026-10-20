@@ -22,6 +22,7 @@ $items = @(
     @{ Type = 'stats';   Script = 'widget.ps1' },
     @{ Type = 'battery'; Script = 'widget.ps1' },
     @{ Type = 'map';     Script = 'widget.ps1' },
+    @{ Type = 'tunebtn'; Script = 'widget.ps1' },
     @{ Type = 'weather'; Script = 'extras.ps1' },
     @{ Type = 'net';     Script = 'extras.ps1' }
 )

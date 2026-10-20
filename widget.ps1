@@ -2,7 +2,7 @@
 # Usage: powershell -File widget.ps1 -Type clock|stats|map
 
 param(
-    [ValidateSet('clock', 'stats', 'map', 'battery')]
+    [ValidateSet('clock', 'stats', 'map', 'battery', 'tunebtn')]
     [string]$Type = 'clock'
 )
 
@@ -95,54 +95,63 @@ function Get-ClockXaml {
         Width="300" SizeToContent="Height" WindowStartupLocation="Manual" Title="DeskClock-clock">
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="240"/>
+      <RowDefinition Height="284"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
 
     <Grid Grid.Row="0">
-      <!-- soft outer glow ring -->
-      <Ellipse Stroke="#40FFFFFF" StrokeThickness="1.2" Margin="8"/>
-      <Ellipse Stroke="#1AFFFFFF" StrokeThickness="1" Margin="18"/>
+      <!-- single bezel ring + soft dial face (perfect circles) -->
+      <Ellipse Width="284" Height="284" Stroke="#22000000" StrokeThickness="1.2"/>
+      <Ellipse Width="252" Height="252">
+        <Ellipse.Fill>
+          <RadialGradientBrush>
+            <GradientStop Color="#FEFEFF" Offset="0"/>
+            <GradientStop Color="#F0F0F6" Offset="1"/>
+          </RadialGradientBrush>
+        </Ellipse.Fill>
+      </Ellipse>
 
-      <Canvas x:Name="dial" Width="240" Height="240"/>
-      <Canvas x:Name="hands" Width="240" Height="240">
+      <Canvas x:Name="dial" Width="284" Height="284"/>
+      <Canvas x:Name="hands" Width="284" Height="284">
         <Canvas.Effect>
-          <DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity="0.75" Color="#000000"/>
+          <DropShadowEffect BlurRadius="7" ShadowDepth="1" Direction="270" Opacity="0.22" Color="#000000"/>
         </Canvas.Effect>
 
-        <Rectangle x:Name="hourHand" Width="5.5" Height="50" RadiusX="2.75" RadiusY="2.75" Fill="#FFFFFF" RenderTransformOrigin="0.5,1">
+        <Rectangle x:Name="hourHand" Width="6" Height="58" RadiusX="3" RadiusY="3" Fill="#16161C" RenderTransformOrigin="0.5,1">
           <Rectangle.RenderTransform><RotateTransform x:Name="hourRot"/></Rectangle.RenderTransform>
         </Rectangle>
-        <Rectangle x:Name="minHand" Width="4" Height="64" RadiusX="2" RadiusY="2" Fill="#F2F2F8" RenderTransformOrigin="0.5,1">
+        <Rectangle x:Name="minHand" Width="4.5" Height="76" RadiusX="2.25" RadiusY="2.25" Fill="#2A2A33" RenderTransformOrigin="0.5,1">
           <Rectangle.RenderTransform><RotateTransform x:Name="minRot"/></Rectangle.RenderTransform>
         </Rectangle>
-        <Rectangle x:Name="secHand" Width="2" Height="72" RadiusX="1" RadiusY="1" RenderTransformOrigin="0.5,1">
+        <Rectangle x:Name="secHand" Width="2" Height="86" RadiusX="1" RadiusY="1" RenderTransformOrigin="0.5,1">
           <Rectangle.RenderTransform><RotateTransform x:Name="secRot"/></Rectangle.RenderTransform>
           <Rectangle.Fill>
             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-              <GradientStop Color="#8B5CF6" Offset="0"/>
-              <GradientStop Color="#3B82F6" Offset="1"/>
+              <GradientStop Color="#F43F5E" Offset="0"/>
+              <GradientStop Color="#BE123C" Offset="1"/>
             </LinearGradientBrush>
           </Rectangle.Fill>
         </Rectangle>
 
         <!-- centre jewel -->
-        <Ellipse x:Name="centerGlow" Width="22" Height="22" Fill="#338B5CF6"/>
-        <Ellipse x:Name="centerDot" Width="10" Height="10" Fill="#7C5CFF"/>
-        <Ellipse x:Name="centerPin" Width="4" Height="4" Fill="#FFFFFF"/>
+        <Ellipse x:Name="centerGlow" Width="26" Height="26" Fill="#33F43F5E"/>
+        <Ellipse x:Name="centerDot" Width="12" Height="12" Fill="#E11D48"/>
+        <Ellipse x:Name="centerPin" Width="5" Height="5" Fill="#FDFDFF"/>
       </Canvas>
     </Grid>
 
     <!-- date row -->
-    <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,4,0,0">
-      <TextBlock x:Name="dateTxt" Text="" HorizontalAlignment="Center"
-                 Foreground="#FFFFFF" FontFamily="Segoe UI" FontWeight="Bold" FontSize="12.5">
-        <TextBlock.Effect><DropShadowEffect BlurRadius="8" ShadowDepth="0" Opacity="0.9" Color="#000000"/></TextBlock.Effect>
+    <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,2,0,0">
+      <TextBlock x:Name="timeTxt" Text="" HorizontalAlignment="Center"
+                 Foreground="#14141A" FontFamily="Segoe UI Light" FontSize="32">
+        <TextBlock.Effect><DropShadowEffect BlurRadius="6" ShadowDepth="1" Direction="270" Opacity="0.10" Color="#000000"/></TextBlock.Effect>
+      </TextBlock>
+      <TextBlock x:Name="dateTxt" Text="" HorizontalAlignment="Center" Margin="0,2,0,0"
+                 Foreground="#14141A" FontFamily="Segoe UI" FontWeight="Bold" FontSize="12.5">
+        <TextBlock.Effect><DropShadowEffect BlurRadius="6" ShadowDepth="1" Direction="270" Opacity="0.10" Color="#000000"/></TextBlock.Effect>
       </TextBlock>
       <TextBlock x:Name="dayTxt" Text="" HorizontalAlignment="Center" Margin="0,1,0,0"
-                 Foreground="#D8D8E4" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="9.5">
-        <TextBlock.Effect><DropShadowEffect BlurRadius="7" ShadowDepth="0" Opacity="0.9" Color="#000000"/></TextBlock.Effect>
-      </TextBlock>
+                 Foreground="#6B6B76" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="9.5"/>
     </StackPanel>
   </Grid>
 </Window>
@@ -171,7 +180,7 @@ function RingXaml($name, $c1, $c2, $label) {
             <TextBlock.Effect><DropShadowEffect BlurRadius="9" ShadowDepth="0" Opacity="0.9" Color="#000000"/></TextBlock.Effect>
           </TextBlock>
         </Grid>
-        <TextBlock Text="$label" HorizontalAlignment="Center" Foreground="#E8E8F2" FontSize="11"
+        <TextBlock Text="$label" HorizontalAlignment="Center" Foreground="#5C5C68" FontSize="11"
                    FontFamily="Segoe UI" FontWeight="Bold" Margin="0,7,0,2">
           <TextBlock.Effect><DropShadowEffect BlurRadius="8" ShadowDepth="0" Opacity="0.9" Color="#000000"/></TextBlock.Effect>
         </TextBlock>
@@ -196,7 +205,7 @@ function Get-StatsXaml {
   <Grid Margin="0">
     <StackPanel>
       <Grid Margin="4,0,4,10">
-        <TextBlock Text="SYSTEM" Foreground="#E8E8F2" FontSize="10.5" FontFamily="Segoe UI" FontWeight="Bold">
+        <TextBlock Text="SYSTEM" Foreground="#5C5C68" FontSize="10.5" FontFamily="Segoe UI" FontWeight="Bold">
           <TextBlock.Effect><DropShadowEffect BlurRadius="8" ShadowDepth="0" Opacity="0.9" Color="#000000"/></TextBlock.Effect>
         </TextBlock>
         <TextBlock x:Name="uptimeTxt" Text="" HorizontalAlignment="Right" Foreground="#C0C0D0" FontSize="9.5" FontWeight="SemiBold">
@@ -215,9 +224,9 @@ function Get-StatsXaml {
       </Grid>
 
       <Border Margin="4,10,4,0" Height="40" CornerRadius="8" Background="#10FFFFFF" ClipToBounds="True">
-        <Canvas x:Name="sparkCanvas" Width="260" Height="40">
-          <Polyline x:Name="cpuLine" Stroke="#8B5CF6" StrokeThickness="1.6" StrokeLineJoin="Round"/>
-          <Polyline x:Name="ramLine" Stroke="#22C55E" StrokeThickness="1.6" StrokeLineJoin="Round"/>
+        <Canvas x:Name="sparkCanvas" Width="238" Height="40">
+          <Polyline x:Name="cpuLine" Stroke="#8B5CF6" StrokeThickness="2.2" StrokeLineJoin="Round"/>
+          <Polyline x:Name="ramLine" Stroke="#22C55E" StrokeThickness="2.2" StrokeLineJoin="Round"/>
         </Canvas>
       </Border>
     </StackPanel>
@@ -238,7 +247,7 @@ function Get-MapXaml {
   </Window.Resources>
   <Border Background="Transparent" Padding="0">
     <Grid>
-      <Border Height="328" CornerRadius="14" ClipToBounds="True" BorderBrush="#18FFFFFF" BorderThickness="1">
+      <Border Height="312" CornerRadius="14" ClipToBounds="True" BorderBrush="#18FFFFFF" BorderThickness="1">
         <Grid>
           <Border>
             <Border.Background>
@@ -246,11 +255,11 @@ function Get-MapXaml {
             </Border.Background>
           </Border>
           <!-- soft tint so the bright map tiles do not glare -->
-          <Border Background="#26000000"/>
-          <Border VerticalAlignment="Bottom" Background="#A60A0A12" Padding="9,6" CornerRadius="0,0,14,14">
+          <Border Background="#4D0A0E16"/>
+          <Border VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10" Background="#EFFFFFFF" Padding="9,5" CornerRadius="9" BorderBrush="#18000000" BorderThickness="1">
             <StackPanel Orientation="Horizontal">
-              <Ellipse Width="6" Height="6" Fill="#7EE787" VerticalAlignment="Center" Margin="0,0,7,0"/>
-              <TextBlock x:Name="mapLabel" Text="locating" Foreground="#D8D8E4" FontSize="10.5" FontFamily="Segoe UI"/>
+              <Ellipse Width="6" Height="6" Fill="#059669" VerticalAlignment="Center" Margin="0,0,7,0"/>
+              <TextBlock x:Name="mapLabel" Text="locating" Foreground="#2E2E38" FontSize="10.5" FontFamily="Segoe UI"/>
             </StackPanel>
           </Border>
         </Grid>
@@ -271,7 +280,7 @@ function Get-BatteryXaml {
   <Border Background="Transparent" Padding="0">
     <StackPanel VerticalAlignment="Center">
       <Grid Margin="1,0,1,12">
-        <TextBlock Text="BATTERY" Foreground="#E8E8F2" FontSize="10.5" FontFamily="Segoe UI" FontWeight="Bold" VerticalAlignment="Center">
+        <TextBlock Text="BATTERY" Foreground="#5C5C68" FontSize="10.5" FontFamily="Segoe UI" FontWeight="Bold" VerticalAlignment="Center">
           <TextBlock.Effect><DropShadowEffect BlurRadius="8" ShadowDepth="0" Opacity="0.9" Color="#000000"/></TextBlock.Effect>
         </TextBlock>
         <TextBlock x:Name="battState" Text="" HorizontalAlignment="Right" Foreground="#7EE787" FontSize="9.5" FontFamily="Segoe UI" FontWeight="Bold" VerticalAlignment="Center">
@@ -280,7 +289,7 @@ function Get-BatteryXaml {
       </Grid>
 
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="1,0,0,0">
-        <TextBlock x:Name="battPct" Text="100" Foreground="#FFFFFF" FontSize="32" FontFamily="Segoe UI Light" Margin="0,-4,0,0">
+        <TextBlock x:Name="battPct" Text="100" Foreground="#FFFFFF" FontSize="35" FontFamily="Segoe UI Light" Margin="0,-4,0,0">
           <TextBlock.Effect><DropShadowEffect BlurRadius="9" ShadowDepth="0" Opacity="0.9" Color="#000000"/></TextBlock.Effect>
         </TextBlock>
         <TextBlock Text="%" Foreground="#B8B8C8" FontSize="17" FontFamily="Segoe UI Light" VerticalAlignment="Top" Margin="2,1,0,0"/>
@@ -304,10 +313,99 @@ function Get-BatteryXaml {
         <TextBlock.Effect><DropShadowEffect BlurRadius="7" ShadowDepth="0" Opacity="0.9" Color="#000000"/></TextBlock.Effect>
       </TextBlock>
 
-      <TextBlock x:Name="battHealth" Text="" Foreground="#7A7A8C" FontSize="9" FontFamily="Segoe UI" Margin="1,6,0,0">
+      <TextBlock x:Name="battHealth" Text="" Foreground="#5C5C68" FontSize="9" FontFamily="Segoe UI" Margin="1,6,0,0">
         <TextBlock.Effect><DropShadowEffect BlurRadius="7" ShadowDepth="0" Opacity="0.9" Color="#000000"/></TextBlock.Effect>
       </TextBlock>
     </StackPanel>
+  </Border>
+</Window>
+"@
+}
+
+function Get-TuneBtnXaml {
+    @"
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        ResizeMode="NoResize" ShowInTaskbar="False" Topmost="False"
+        Width="300" SizeToContent="Height" WindowStartupLocation="Manual" Title="DeskClock-tunebtn">
+  <Border Background="Transparent" Padding="0">
+    <Border x:Name="tuneBtn" Height="58" CornerRadius="14" BorderThickness="1" Cursor="Hand">
+      <Border.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+          <GradientStop Color="#FDFDFF" Offset="0"/>
+          <GradientStop Color="#F4F4F9" Offset="0.55"/>
+          <GradientStop Color="#E9E9F1" Offset="1"/>
+        </LinearGradientBrush>
+      </Border.Background>
+      <Border.BorderBrush>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+          <GradientStop Color="#E2E2EA" Offset="0"/>
+          <GradientStop Color="#D6D6E0" Offset="0.5"/>
+          <GradientStop Color="#C6C6D2" Offset="1"/>
+        </LinearGradientBrush>
+      </Border.BorderBrush>
+
+      <Grid>
+        <!-- glass sheen -->
+        <Border CornerRadius="13,13,4,4" Height="27" VerticalAlignment="Top" Margin="1,1,1,0">
+          <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+              <GradientStop Color="#26FFFFFF" Offset="0"/>
+              <GradientStop Color="#00FFFFFF" Offset="1"/>
+            </LinearGradientBrush>
+          </Border.Background>
+        </Border>
+
+        <Grid Margin="12,0,12,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+
+          <!-- icon tile (enamelled) -->
+          <Border Grid.Column="0" Width="36" Height="36" CornerRadius="12" BorderThickness="1">
+            <Border.Background>
+              <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#B9A0FF" Offset="0"/>
+                <GradientStop Color="#7C3AED" Offset="1"/>
+              </LinearGradientBrush>
+            </Border.Background>
+            <Border.BorderBrush>
+              <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#B3FFFFFF" Offset="0"/>
+                <GradientStop Color="#33000000" Offset="1"/>
+              </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Viewbox Width="18" Height="18">
+              <Canvas Width="24" Height="24">
+                <Path Data="M 3,12 L 8,12 L 10,6 L 14,18 L 16,12 L 21,12"
+                      Stroke="#FDFDFF" StrokeThickness="2"
+                      StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round"/>
+              </Canvas>
+            </Viewbox>
+          </Border>
+
+          <!-- labels -->
+          <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+            <TextBlock Text="PC Health" Foreground="#FFFFFF" FontSize="12.5" FontWeight="Bold">
+              <TextBlock.Effect><DropShadowEffect BlurRadius="4" ShadowDepth="1" Opacity="0.9" Color="#000000"/></TextBlock.Effect>
+            </TextBlock>
+            <TextBlock x:Name="tuneSub" Text="WinTune &#183; cleanup &amp; startup" Foreground="#7A7A88" FontSize="9" Margin="0,3,0,0">
+              <TextBlock.Effect><DropShadowEffect BlurRadius="3" ShadowDepth="1" Opacity="0.8" Color="#000000"/></TextBlock.Effect>
+            </TextBlock>
+          </StackPanel>
+
+          <!-- chevron badge -->
+          <Border Grid.Column="2" x:Name="tuneChev" Width="24" Height="24" CornerRadius="8"
+                  Background="#12FFFFFF" BorderBrush="#22FFFFFF" BorderThickness="1" VerticalAlignment="Center">
+            <TextBlock Text="&#8250;" Foreground="#C4B5FD" FontSize="15"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-2,0,0"/>
+          </Border>
+        </Grid>
+      </Grid>
+    </Border>
   </Border>
 </Window>
 "@
@@ -410,6 +508,7 @@ $xamlText = switch ($Type) {
     'stats' { Get-StatsXaml }
     'map' { Get-MapXaml }
     'battery' { Get-BatteryXaml }
+    'tunebtn' { Get-TuneBtnXaml }
 }
 
 
@@ -432,39 +531,70 @@ $xamlText = $xamlText.Replace('#22C55E', $T.ok).Replace('#7EE787', $T.okSoft)
 $xamlText = $xamlText.Replace('#FBBF24', $T.warnSoft).Replace('#F59E0B', $T.warn)
 $xamlText = $xamlText.Replace('#F2F2F8', $T.text).Replace('#EDEDF4', $T.text).Replace('#E8E8F2', $T.text)
 $xamlText = $xamlText.Replace('#D8D8E4', $T.muted).Replace('#C9C9D6', $T.muted).Replace('#D0D0DE', $T.muted).Replace('#B8B8C8', $T.muted)
+$xamlText = $xamlText.Replace('#FFFFFF', $T.text)
+$xamlText = $xamlText.Replace('#C0C0D0', $T.muted).Replace('#9A9AB0', $T.dim)
+$xamlText = $xamlText.Replace('#C4B5FD', $T.accent).Replace('#6EE7B7', $T.okSoft)
+# light-on-dark tracks -> dark-on-light tracks
+$xamlText = $xamlText.Replace('#22FFFFFF', '#18000000').Replace('#26FFFFFF', '#1E000000').Replace('#18FFFFFF', '#14000000')
+$xamlText = $xamlText.Replace('#16FFFFFF', '#14000000').Replace('#14FFFFFF', '#12000000').Replace('#12FFFFFF', '#10000000')
+$xamlText = $xamlText.Replace('#10FFFFFF', '#0C000000').Replace('#0EFFFFFF', '#0C000000').Replace('#0CFFFFFF', '#0A000000')
 $xamlText = $xamlText.Replace('#8A8A9A', $T.dim).Replace('#6E6E80', $T.dim).Replace('#5E5E70', $T.dim)
 
 [xml]$xaml = $xamlText
 $reader = New-Object System.Xml.XmlNodeReader $xaml
 $window = [Windows.Markup.XamlReader]::Load($reader)
 
-# ---------------------------------------------------------------- glass panel
-$glass = New-Object System.Windows.Controls.Border
-$glass.CornerRadius = New-Object System.Windows.CornerRadius 20
-$glass.Padding = New-Object System.Windows.Thickness 16
-$glass.BorderThickness = New-Object System.Windows.Thickness 1
-$glass.BorderBrush = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.Color]::FromArgb(0x26, 255, 255, 255))
+# ---------------------------------------------------------------- v2 glass panel
+$frame = New-Object System.Windows.Controls.Border
+$frame.CornerRadius = New-Object System.Windows.CornerRadius 22
+$frame.BorderThickness = New-Object System.Windows.Thickness 1
+$frame.Padding = New-Object System.Windows.Thickness 0
 
-# vertical glass gradient: lighter at the top, deep at the bottom
-$gbg = New-Object System.Windows.Media.LinearGradientBrush
-$gbg.StartPoint = New-Object System.Windows.Point(0, 0)
-$gbg.EndPoint = New-Object System.Windows.Point(0, 1)
-[void]$gbg.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.Color]::FromArgb(0xA6, 18, 18, 27), 0)))
-[void]$gbg.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.Color]::FromArgb(0xE6, 9, 9, 14), 1)))
-$glass.Background = $gbg
+# translucent white glass (all widgets) - higher opacity for crisp text
+$frame.BorderBrush = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.Color]::FromArgb(0x14, 0, 0, 0))
+$glassBg = New-Object System.Windows.Media.LinearGradientBrush
+$glassBg.StartPoint = New-Object System.Windows.Point(0, 0)
+$glassBg.EndPoint = New-Object System.Windows.Point(0, 1)
+[void]$glassBg.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.Color]::FromArgb(0xF0, 252, 252, 254), 0)))
+[void]$glassBg.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.Color]::FromArgb(0xFA, 245, 245, 250), 1)))
+$frame.Background = $glassBg
 
+# soft depth
 $sh = New-Object System.Windows.Media.Effects.DropShadowEffect
-$sh.BlurRadius = 30
-$sh.ShadowDepth = 0
-$sh.Opacity = 0.5
+$sh.BlurRadius = 42
+$sh.ShadowDepth = 8
+$sh.Direction = 270
+$sh.Opacity = 0.55
 $sh.Color = [System.Windows.Media.Colors]::Black
-$glass.Effect = $sh
+$frame.Effect = $sh
 
 $inner = $window.Content
 if ($inner -is [System.Windows.UIElement]) { $inner.Effect = $null }
 $window.Content = $null
-$glass.Child = $inner
-$window.Content = $glass
+
+$panel = New-Object System.Windows.Controls.Border
+$panel.Padding = New-Object System.Windows.Thickness 18
+$panel.CornerRadius = New-Object System.Windows.CornerRadius 21
+$panel.Child = $inner
+
+# top sheen (glass reflection)
+$sheen = New-Object System.Windows.Controls.Border
+$sheen.CornerRadius = New-Object System.Windows.CornerRadius 21
+$sheen.IsHitTestVisible = $false
+$sg = New-Object System.Windows.Media.LinearGradientBrush
+$sg.StartPoint = New-Object System.Windows.Point(0, 0)
+$sg.EndPoint = New-Object System.Windows.Point(0, 1)
+[void]$sg.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.Color]::FromArgb(0x12, 255, 255, 255), 0)))
+[void]$sg.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.Color]::FromArgb(0x04, 255, 255, 255), 0.38)))
+[void]$sg.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.Color]::FromArgb(0x00, 255, 255, 255), 0.55)))
+$sheen.Background = $sg
+
+$shell = New-Object System.Windows.Controls.Grid
+[void]$shell.Children.Add($panel)
+[void]$shell.Children.Add($sheen)
+$frame.Child = $shell
+
+$window.Content = $frame
 if ($inner -is [System.Windows.FrameworkElement]) {
     $inner.VerticalAlignment = 'Center'
     $inner.HorizontalAlignment = 'Stretch'
@@ -473,12 +603,13 @@ if ($inner -is [System.Windows.FrameworkElement]) {
 # fixed box sizes -> the two-column grid lines up exactly
 $window.SizeToContent = [System.Windows.SizeToContent]::Manual
 $sz = switch ($Type) {
-    'clock'   { @{ w = 300; h = 316 } }
-    'stats'   { @{ w = 300; h = 220 } }
-    'map'     { @{ w = 300; h = 372 } }
-    'weather' { @{ w = 300; h = 190 } }
-    'net'     { @{ w = 300; h = 164 } }
-    'battery' { @{ w = 300; h = 190 } }
+    'clock'   { @{ w = 400; h = 400 } }
+    'stats'   { @{ w = 282; h = 230 } }
+    'map'     { @{ w = 282; h = 348 } }
+    'tunebtn' { @{ w = 282; h = 104 } }
+    'weather' { @{ w = 282; h = 230 } }
+    'net'     { @{ w = 400; h = 178 } }
+    'battery' { @{ w = 282; h = 230 } }
     default   { @{ w = 300; h = 180 } }
 }
 $window.Width = $sz.w
@@ -503,17 +634,19 @@ if ($Type -eq 'clock') {
     $hourHand = $window.FindName('hourHand'); $minHand = $window.FindName('minHand'); $secHand = $window.FindName('secHand')
     $hourRot = $window.FindName('hourRot'); $minRot = $window.FindName('minRot'); $secRot = $window.FindName('secRot')
     $centerDot = $window.FindName('centerDot'); $centerPin = $window.FindName('centerPin'); $centerGlow = $window.FindName('centerGlow')
-    $dateTxt = $window.FindName('dateTxt'); $dayTxt = $window.FindName('dayTxt')
-    $c = 120.0
+    $dateTxt = $window.FindName('dateTxt'); $dayTxt = $window.FindName('dayTxt'); $timeTxt = $window.FindName('timeTxt')
+    $c = 142.0
 
     for ($i = 0; $i -lt 60; $i++) {
+        # 12/3/6/9 ki jagah numbers aate hain, wahan tick mat banao
+        if ($i % 15 -eq 0) { continue }
         $isHour = ($i % 5 -eq 0)
         $len = if ($isHour) { 14 } else { 6 }
         $w = if ($isHour) { 2.2 } else { 1.1 }
         $op = if ($isHour) { 0.85 } else { 0.30 }
         $line = New-Object System.Windows.Shapes.Rectangle
         $line.Width = $w; $line.Height = $len; $line.RadiusX = 1; $line.RadiusY = 1
-        $line.Fill = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.Color]::FromArgb([int](255 * $op), 255, 255, 255))
+        $line.Fill = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.Color]::FromArgb([int](255 * $op), 26, 26, 34))
         $angle = $i * 6
         $rad = ($angle - 90) * [Math]::PI / 180
         $r = $c - 12 - ($len / 2)
@@ -527,32 +660,32 @@ if ($Type -eq 'clock') {
     }
     foreach ($n in @(12, 3, 6, 9)) {
         $tb = New-Object System.Windows.Controls.TextBlock
-        $tb.Text = "$n"; $tb.FontFamily = New-Object System.Windows.Media.FontFamily 'Segoe UI Semibold'; $tb.FontSize = 15
-        $tb.Foreground = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.Color]::FromArgb(230, 240, 240, 250))
+        $tb.Text = "$n"; $tb.FontFamily = New-Object System.Windows.Media.FontFamily 'Segoe UI Semibold'; $tb.FontSize = 16
+        $tb.Foreground = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.Color]::FromArgb(230, 20, 20, 28))
         $tb.Effect = New-Object System.Windows.Media.Effects.DropShadowEffect
         $tb.Effect.BlurRadius = 8; $tb.Effect.ShadowDepth = 0; $tb.Effect.Opacity = 0.8; $tb.Effect.Color = [System.Windows.Media.Colors]::Black
         $tb.Measure([System.Windows.Size]::new([double]::PositiveInfinity, [double]::PositiveInfinity))
         $sz = $tb.DesiredSize
         $angle = switch ($n) { 12 { 0 } 3 { 90 } 6 { 180 } 9 { 270 } }
         $rad = ($angle - 90) * [Math]::PI / 180
-        $r = $c - 40
+        $r = $c - 22
         $tb.SetValue([System.Windows.Controls.Canvas]::LeftProperty, [double]($c + $r * [Math]::Cos($rad) - $sz.Width / 2))
         $tb.SetValue([System.Windows.Controls.Canvas]::TopProperty, [double]($c + $r * [Math]::Sin($rad) - $sz.Height / 2))
         [void]$dial.Children.Add($tb)
     }
 
-    $hourHand.SetValue([System.Windows.Controls.Canvas]::LeftProperty, [double]($c - 2.75))
-    $hourHand.SetValue([System.Windows.Controls.Canvas]::TopProperty, [double]($c - 50))
-    $minHand.SetValue([System.Windows.Controls.Canvas]::LeftProperty, [double]($c - 2))
-    $minHand.SetValue([System.Windows.Controls.Canvas]::TopProperty, [double]($c - 64))
+    $hourHand.SetValue([System.Windows.Controls.Canvas]::LeftProperty, [double]($c - 3))
+    $hourHand.SetValue([System.Windows.Controls.Canvas]::TopProperty, [double]($c - 58))
+    $minHand.SetValue([System.Windows.Controls.Canvas]::LeftProperty, [double]($c - 2.25))
+    $minHand.SetValue([System.Windows.Controls.Canvas]::TopProperty, [double]($c - 76))
     $secHand.SetValue([System.Windows.Controls.Canvas]::LeftProperty, [double]($c - 1))
-    $secHand.SetValue([System.Windows.Controls.Canvas]::TopProperty, [double]($c - 72))
-    $centerGlow.SetValue([System.Windows.Controls.Canvas]::LeftProperty, [double]($c - 11))
-    $centerGlow.SetValue([System.Windows.Controls.Canvas]::TopProperty, [double]($c - 11))
-    $centerDot.SetValue([System.Windows.Controls.Canvas]::LeftProperty, [double]($c - 5))
-    $centerDot.SetValue([System.Windows.Controls.Canvas]::TopProperty, [double]($c - 5))
-    $centerPin.SetValue([System.Windows.Controls.Canvas]::LeftProperty, [double]($c - 2))
-    $centerPin.SetValue([System.Windows.Controls.Canvas]::TopProperty, [double]($c - 2))
+    $secHand.SetValue([System.Windows.Controls.Canvas]::TopProperty, [double]($c - 86))
+    $centerGlow.SetValue([System.Windows.Controls.Canvas]::LeftProperty, [double]($c - 13))
+    $centerGlow.SetValue([System.Windows.Controls.Canvas]::TopProperty, [double]($c - 13))
+    $centerDot.SetValue([System.Windows.Controls.Canvas]::LeftProperty, [double]($c - 6))
+    $centerDot.SetValue([System.Windows.Controls.Canvas]::TopProperty, [double]($c - 6))
+    $centerPin.SetValue([System.Windows.Controls.Canvas]::LeftProperty, [double]($c - 2.5))
+    $centerPin.SetValue([System.Windows.Controls.Canvas]::TopProperty, [double]($c - 2.5))
 
     $update = {
         $now = Get-Date
@@ -562,6 +695,7 @@ if ($Type -eq 'clock') {
         $script:secRot.Angle = $sec * 6
         $script:minRot.Angle = $min * 6
         $script:hourRot.Angle = $hr * 30
+        $script:timeTxt.Text = $now.ToString('HH:mm')
         $script:dateTxt.Text = $now.ToString('dd MMMM yyyy')
         $script:dayTxt.Text = $now.ToString('dddd').ToUpper()
     }
@@ -586,7 +720,7 @@ if ($Type -eq 'stats') {
         $n = $hist.Count
         if ($n -gt 1) {
             for ($i = 0; $i -lt $n; $i++) {
-                $x = ($i / [Math]::Max(1, $n - 1)) * 260
+                $x = ($i / [Math]::Max(1, $n - 1)) * 238
                 $v = [Math]::Max(0, [Math]::Min(100, [double]$hist[$i]))
                 $y = 34 - ($v / 100.0) * 28
                 $pc.Add((New-Object System.Windows.Point($x, $y)))
@@ -816,15 +950,57 @@ if ($Type -eq 'battery') {
     $window.Add_Loaded({ & $script:update })
 }
 
+# ---------------- winTune launcher button ----------------
+if ($Type -eq 'tunebtn') {
+    $update = { }
+
+    $btn  = $window.FindName('tuneBtn')
+    $chev = $window.FindName('tuneChev')
+
+    function New-BtnBg([string]$c1, [string]$c2, [string]$c3) {
+        $g = New-Object System.Windows.Media.LinearGradientBrush
+        $g.StartPoint = New-Object System.Windows.Point(0, 0)
+        $g.EndPoint = New-Object System.Windows.Point(0, 1)
+        [void]$g.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.ColorConverter]::ConvertFromString($c1)), 0))
+        [void]$g.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.ColorConverter]::ConvertFromString($c2)), 0.55))
+        [void]$g.GradientStops.Add((New-Object System.Windows.Media.GradientStop ([System.Windows.Media.ColorConverter]::ConvertFromString($c3)), 1))
+        return $g
+    }
+
+    function Set-BtnLook([string]$c1, [string]$c2, [string]$c3, [string]$border, [string]$chevBg) {
+        $btn.Background  = New-BtnBg $c1 $c2 $c3
+        $btn.BorderBrush = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.ColorConverter]::ConvertFromString($border))
+        if ($chev) {
+            $chev.Background = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.ColorConverter]::ConvertFromString($chevBg))
+        }
+    }
+
+    if ($btn) {
+        $btn.Add_MouseEnter({ Set-BtnLook '#FDFDFF' '#F7F7FC' '#EFEFF6' '#7C3AED' '#EDE9FE' })
+        $btn.Add_MouseLeave({ Set-BtnLook '#FDFDFF' '#F4F4F9' '#E9E9F1' '#D6D6E0' '#E6E6EE' })
+        $btn.Add_MouseLeftButtonDown({ Set-BtnLook '#ECECF3' '#E6E6EE' '#DEDEE8' '#7C3AED' '#DDD6FE' })
+        $btn.Add_MouseLeftButtonUp({
+            Set-BtnLook '#FDFDFF' '#F7F7FC' '#EFEFF6' '#7C3AED' '#EDE9FE'
+            $wt = Join-Path $PSScriptRoot 'wintune.ps1'
+            if (Test-Path $wt) {
+                Start-Process -FilePath 'powershell.exe' -ArgumentList @(
+                    '-NoProfile', '-STA', '-ExecutionPolicy', 'Bypass', '-File', $wt
+                ) -WindowStyle Hidden
+            }
+        })
+    }
+}
+
 # ------------------------------------------------------------------ position + behaviour
 $wa = [System.Windows.SystemParameters]::WorkArea
 function Default-Pos {
     $w = $script:window.Width
     switch ($script:Type) {
-        'clock' { $script:window.Left = $wa.Right - 18 - 300 - 14 - 300; $script:window.Top = 18 }
-        'stats' { $script:window.Left = $wa.Right - 18 - 300 - 14 - 300; $script:window.Top = 348 }
-        'battery' { $script:window.Left = $wa.Right - 18 - 300 - 14 - 300; $script:window.Top = 582 }
-        'map' { $script:window.Left = $wa.Right - 18 - 300; $script:window.Top = 400 }
+        'clock' { $script:window.Left = $wa.Right - 18 - 282 - 14 - 282 - 14 - 400; $script:window.Top = 18 }
+        'stats' { $script:window.Left = $wa.Right - 18 - 282; $script:window.Top = 18 }
+        'battery' { $script:window.Left = $wa.Right - 18 - 282 - 14 - 282; $script:window.Top = 262 }
+        'map' { $script:window.Left = $wa.Right - 18 - 282; $script:window.Top = 262 }
+        'tunebtn' { $script:window.Left = $wa.Right - 18 - 282 - 14 - 282; $script:window.Top = 506 }
     }
 }
 
@@ -905,10 +1081,11 @@ $miReset.Add_Click({
     $w = $script:window.Width
     $wa2 = [System.Windows.SystemParameters]::WorkArea
     switch ($script:Type) {
-        'clock' { $script:window.Left = $wa2.Right - 18 - 300 - 14 - 300; $script:window.Top = 18 }
-        'stats' { $script:window.Left = $wa2.Right - 18 - 300 - 14 - 300; $script:window.Top = 348 }
-        'battery' { $script:window.Left = $wa2.Right - 18 - 300 - 14 - 300; $script:window.Top = 582 }
-        'map' { $script:window.Left = $wa2.Right - 18 - 300; $script:window.Top = 400 }
+        'clock' { $script:window.Left = $wa2.Right - 18 - 282 - 14 - 282 - 14 - 400; $script:window.Top = 18 }
+        'stats' { $script:window.Left = $wa2.Right - 18 - 282; $script:window.Top = 18 }
+        'battery' { $script:window.Left = $wa2.Right - 18 - 282 - 14 - 282; $script:window.Top = 262 }
+        'map' { $script:window.Left = $wa2.Right - 18 - 282; $script:window.Top = 262 }
+        'tunebtn' { $script:window.Left = $wa2.Right - 18 - 282 - 14 - 282; $script:window.Top = 506 }
     }
 })
 $miDesktop = New-Object System.Windows.Controls.MenuItem

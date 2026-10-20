@@ -15,7 +15,7 @@ $xaml = @'
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
         ResizeMode="NoResize" ShowInTaskbar="True" Topmost="False"
-        Width="940" Height="660" WindowStartupLocation="CenterScreen"
+        Width="940" Height="690" WindowStartupLocation="CenterScreen"
         Title="DeskClock-WinTune">
   <Window.Resources>
     <Style TargetType="GridViewColumnHeader">
@@ -133,39 +133,45 @@ $xaml = @'
               <RowDefinition Height="Auto"/>
               <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-              <Border Style="{StaticResource Card}" Width="200">
+            <Grid Grid.Row="0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.85*"/>
+              </Grid.ColumnDefinitions>
+              <Border Grid.Column="0" Style="{StaticResource Card}">
                 <StackPanel>
                   <TextBlock Text="CPU" Foreground="#9A9AB0" FontSize="10" FontWeight="Bold"/>
                   <TextBlock x:Name="dashCpu" Text="--" Foreground="#C4B5FD" FontSize="30" FontFamily="Segoe UI Light"/>
                   <TextBlock x:Name="dashCpuSub" Text="" Foreground="#8A8A9A" FontSize="10"/>
                 </StackPanel>
               </Border>
-              <Border Style="{StaticResource Card}" Width="200">
+              <Border Grid.Column="1" Style="{StaticResource Card}">
                 <StackPanel>
                   <TextBlock Text="RAM" Foreground="#9A9AB0" FontSize="10" FontWeight="Bold"/>
                   <TextBlock x:Name="dashRam" Text="--" Foreground="#6EE7B7" FontSize="30" FontFamily="Segoe UI Light"/>
                   <TextBlock x:Name="dashRamSub" Text="" Foreground="#8A8A9A" FontSize="10"/>
                 </StackPanel>
               </Border>
-              <Border Style="{StaticResource Card}" Width="200">
+              <Border Grid.Column="2" Style="{StaticResource Card}">
                 <StackPanel>
                   <TextBlock Text="C: DRIVE" Foreground="#9A9AB0" FontSize="10" FontWeight="Bold"/>
                   <TextBlock x:Name="dashDisk" Text="--" Foreground="#FBBF24" FontSize="30" FontFamily="Segoe UI Light"/>
                   <TextBlock x:Name="dashDiskSub" Text="" Foreground="#8A8A9A" FontSize="10"/>
                 </StackPanel>
               </Border>
-              <Border Style="{StaticResource Card}" Width="150">
+              <Border Grid.Column="3" Style="{StaticResource Card}" Margin="0">
                 <StackPanel>
                   <TextBlock Text="UPTIME" Foreground="#9A9AB0" FontSize="10" FontWeight="Bold"/>
                   <TextBlock x:Name="dashUp" Text="--" Foreground="#F2F2F8" FontSize="22" FontFamily="Segoe UI Light" Margin="0,6,0,0"/>
                 </StackPanel>
               </Border>
-            </StackPanel>
+            </Grid>
 
             <TextBlock Grid.Row="1" Text="TOP PROCESSES" Foreground="#9A9AB0" FontSize="10" FontWeight="Bold" Margin="2,18,0,8"/>
 
-            <ListView x:Name="procList" Grid.Row="2" Background="Transparent" BorderThickness="0" Foreground="#D8D8E4">
+            <ListView x:Name="procList" Grid.Row="2" Background="Transparent" BorderThickness="0" Foreground="#D8D8E4" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
               <ListView.View>
                 <GridView>
                   <GridViewColumn Header="Process" Width="260" DisplayMemberBinding="{Binding Name}"/>
@@ -189,7 +195,7 @@ $xaml = @'
               <TextBlock x:Name="cleanStatus" Text="" Foreground="#8A8A9A" FontSize="11" VerticalAlignment="Center" Margin="14,0,0,0"/>
             </StackPanel>
 
-            <ListView x:Name="cleanList" Grid.Row="1" Background="Transparent" BorderThickness="0" Foreground="#D8D8E4">
+            <ListView x:Name="cleanList" Grid.Row="1" Background="Transparent" BorderThickness="0" Foreground="#D8D8E4" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
               <ListView.View>
                 <GridView>
                   <GridViewColumn Width="34">
@@ -219,7 +225,7 @@ $xaml = @'
               <Button x:Name="btnDisable" Content="Disable selected (HKCU)" Style="{StaticResource ActBtn}" Margin="10,0,0,0" Background="#2AEF4444"/>
               <TextBlock x:Name="startStatus" Text="" Foreground="#8A8A9A" FontSize="11" VerticalAlignment="Center" Margin="14,0,0,0"/>
             </StackPanel>
-            <ListView x:Name="startList" Grid.Row="1" Background="Transparent" BorderThickness="0" Foreground="#D8D8E4">
+            <ListView x:Name="startList" Grid.Row="1" Background="Transparent" BorderThickness="0" Foreground="#D8D8E4" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
               <ListView.View>
                 <GridView>
                   <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>

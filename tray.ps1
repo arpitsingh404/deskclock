@@ -110,7 +110,7 @@ function Repair-Host {
 
         $titles  = [TRW]::Titles()
         $visible = [TRW]::VisibleCount()
-        if ($titles.Count -lt 6 -or $visible -lt 6) {
+        if ($titles.Count -lt 7 -or $visible -lt 7) {
             $script:badTicks++
             if ($script:badTicks -ge 3) {
                 $script:badTicks = 0
