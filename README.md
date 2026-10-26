@@ -1,5 +1,9 @@
 # DeskClock
 
+[![Windows 10/11](https://img.shields.io/badge/Windows-10%2F11-0078D6?logo=windows&logoColor=white)](#requirements)
+[![PowerShell 5.1](https://img.shields.io/badge/PowerShell-5.1-5391FE?logo=powershell&logoColor=white)](#requirements)
+[![License: MIT](https://img.shields.io/badge/license-MIT-2ea44f)](LICENSE)
+
 A lightweight desktop widget suite for Windows 11 — seven live WPF panels that sit on your desktop, always behind your windows, never in the way.
 
 ![DeskClock preview](docs/preview.png)
@@ -77,11 +81,14 @@ No installation, no dependencies, no admin rights required.
 ## 🚀 Quick start
 
 ```powershell
+git clone https://github.com/arpitsingh404/deskclock.git
+cd deskclock
+
 # start all widgets
-powershell -ExecutionPolicy Bypass -File D:\DeskClock\deskclock.ps1 -Action start
+powershell -ExecutionPolicy Bypass -File .\deskclock.ps1 -Action start
 
 # make it start automatically at login
-powershell -ExecutionPolicy Bypass -File D:\DeskClock\deskclock.ps1 -Action autostart -State on
+powershell -ExecutionPolicy Bypass -File .\deskclock.ps1 -Action autostart -State on
 ```
 
 ---
@@ -251,3 +258,6 @@ All columns bottom-align at the same coordinate.
 ## 📄 License
 
 MIT © 2026 Arpit Singh
+
+- GitHub: [@arpitsingh404](https://github.com/arpitsingh404)
+- Repository: [deskclock](https://github.com/arpitsingh404/deskclock)
